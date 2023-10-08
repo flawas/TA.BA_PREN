@@ -24,8 +24,7 @@ sudo apt install git
 ```
 #### Download PREN code
 ``` 
-cd /usr/src
-git clone https://github.com/flawas/TA.BA_PREN_PY.git | sudo /usr/src
+git clone https://github.com/flawas/TA.BA_PREN_PY.git /home/pi/Desktop/PREN
 ``` 
 
 ## Uninstallation
