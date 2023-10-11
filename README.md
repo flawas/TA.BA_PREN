@@ -22,6 +22,11 @@ sudo apt-get install xrdp
 ``` 
 sudo apt install git
 ```
+#### Install latest version of Python 3
+``` 
+sudo apt-get install python3
+```
+
 #### Download PREN code
 ``` 
 git clone https://github.com/flawas/TA.BA_PREN_PY.git /home/pi/Desktop/PREN
