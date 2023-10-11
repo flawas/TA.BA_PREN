@@ -6,7 +6,7 @@ of the colors and positions of the cubes as precisely and quickly as possible. T
 should be created inside the device and be visually and physically accessible from the outside.
 
 ## Components
-Required and optional software. Our product is tested with the following components:
+Required Hardware and software. Our product was built with the following hardware components:
 
 [Raspberry Pi 2B](https://www.raspberrypi.com/products/raspberry-pi-2-model-b/)
 
