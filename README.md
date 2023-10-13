@@ -15,7 +15,6 @@ Required Hardware and software. Our product was built with the following hardwar
 [Universal Raw e-Paper Driver HAT Adapter](https://www.bastelgarage.ch/universal-raw-e-paper-driver-hat-adapter?search=Universal%20Raw%20e-Paper%20Driver%20HAT%20Adapter)
 
 ## Installation
-
 ```bash
 sudo apt update
 sudo apt upgrade
@@ -24,11 +23,9 @@ sudo apt install git
 sudo apt-get install python3
 sudo apt -y install python3-pil
 git clone https://github.com/flawas/TA.BA_PREN_PY.git /home/pi/Desktop/PREN
-
 ```
     
 ## Authors
-
 - [@JuliaVonM](https://github.com/JuliaVonM)
 - [@Mangosil](https://github.com/Mangosil)
 - [@flawas](https://github.com/flawas)
