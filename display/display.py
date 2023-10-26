@@ -7,7 +7,7 @@ from waveshare_epd import epd1in54_V2
 import time
 from PIL import Image,ImageDraw,ImageFont
 import traceback
-class display:
+class Display:
     def __int__(self):
         self.picdir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'pic')
         self.libdir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'lib')
