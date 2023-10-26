@@ -37,6 +37,5 @@ class Dataverify:
         resp = requests.post(self.getteamurl(), headers=headers, data=data)
         print(resp.status_code)
 
-
-# df = Dataverify("http://18.192.48.168:5000/cubes/", "team33")
-# df.checkavailability()
+df = Dataverify("http://18.192.48.168:5000/cubes/", "team33")
+df.checkData()

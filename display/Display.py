@@ -13,7 +13,6 @@ import logging
 from waveshare_epd import epd1in54_V2
 import time
 from PIL import Image, ImageDraw, ImageFont
-import traceback
 
 
 class Display:
@@ -121,5 +120,3 @@ class Display:
     def loop(self):
         self.drawPicture('qrcode.bmp')
         self.clearDisplay()
-        self.shutdownDisplay()
-
