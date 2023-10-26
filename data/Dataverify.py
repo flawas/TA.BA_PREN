@@ -24,9 +24,9 @@ class Dataverify:
         headers["Content-Type"] = "application/json"
         resp = requests.get(self.geturl(), headers=headers)
         if(resp.status_code == 200):
-            print("OK")
+            return True
         else:
-            print("NOK")
+            return False
 
     def checkData(self):
         headers = CaseInsensitiveDict()
