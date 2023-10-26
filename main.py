@@ -11,14 +11,15 @@ class main:
         self.__display = Display()
         self.__timemeasure = Timeconsumption()
 
-    def start(self):
-        self.__timemeasure.setstarttime()
+    def initialization(self):
         self.__display.drawInitialDisplay()
         if self.__dataverify.checkavailability():
             self.__display.updateDisplay(10, 30, 'Connection PREN-Server OK')
         else:
             self.__display.updateDisplay(10, 30, 'Connection PREN-Server NOK')
 
+    def start(self):
+        self.__timemeasure.setstarttime()
 
     def end(self, energy):
         self.__timemeasure.setendtime()
@@ -27,4 +28,5 @@ class main:
 
 
 
-main().start()
+main().initialization()
+main().end()
