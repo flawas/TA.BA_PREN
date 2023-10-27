@@ -10,7 +10,6 @@ import time
 class main:
 
     def __init__(self):
-        print("init")
         self.__datasend = Datasend("https://i-ba-pren.flaviowaser.ch/upload-data.php")
         self.__dataverify = Dataverify("http://18.192.48.168:5000/cubes/", "team33")
         self.__display = Display()
@@ -18,7 +17,6 @@ class main:
         self.__timemeasure = Timeconsumption()
 
     def initialization(self):
-        print("Initialization")
         self.__display.drawInitialDisplay()
         self.__display.updateDisplay(10, 30, 'Initialisierung')
         if self.__dataverify.checkavailability():
@@ -27,13 +25,11 @@ class main:
             self.__display.updateDisplay(10, 30, 'Conn. PREN-Server NOK')
 
     def start(self):
-        print("start")
         self.__display.updateDisplay(10, 30, 'Programm läuft')
         self.__timemeasure.setstarttime()
 
     def end(self):
         self.__timemeasure.setendtime()
-        print("end")
 
         self.__display.updateDisplay(10, 10, 'PREN TEAM 33')
         self.__display.updateDisplay(10, 30, 'Programm beendet')
