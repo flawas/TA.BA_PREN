@@ -15,7 +15,8 @@ import time
 from PIL import Image, ImageDraw, ImageFont
 
 
-class Display:
+
+class Display():
 
     def __init__(self):
         self.__font = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), 16)
@@ -71,12 +72,13 @@ class Display:
 
     def drawInitialDisplay(self):
         try:
+            self.__epd.init(1)
             self.updateDisplay(10, 10, 'PREN TEAM 33')
-            self.updateDisplay(10, 30, 'Ready')
+            #self.updateDisplay(10, 30, 'Initialisierung')
             self.updateDisplay(10, 80, 'Beanspruchte Zeit')
-            self.updateDisplay(10, 100, 'Sekunden')
+            #self.updateDisplay(10, 100, 'Sekunden')
             self.updateDisplay(10, 150, 'Stromverbrauch')
-            self.updateDisplay(10, 170, 'kW')
+            #self.updateDisplay(10, 170, 'kW')
 
         except IOError as e:
             logging.info(e)

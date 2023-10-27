@@ -36,6 +36,3 @@ class Dataverify:
         data = {'time': '2023-10-20 11:27:05', 'config': {'1': 'red', '2': 'blue', '3': 'red', '4': 'yellow', '5': '','6': '','7': 'yellow', '8': 'red'}}
         resp = requests.post(self.getteamurl(), headers=headers, data=data)
         print(resp.status_code)
-
-df = Dataverify("http://18.192.48.168:5000/cubes/", "team33")
-df.checkData()

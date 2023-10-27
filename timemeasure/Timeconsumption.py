@@ -1,6 +1,11 @@
 import time
 
+
 class Timeconsumption:
+
+    def __init__(self):
+        self.__starttime = 0
+        self.__endtime = 0
 
     def setstarttime(self):
         t = time.localtime()
@@ -11,4 +16,5 @@ class Timeconsumption:
         self.__endtime = time.perf_counter()
 
     def getelapsedtime(self):
-        return self.__endtime - self.__starttime
+        print("Elapsedtime: " + str(self.__endtime - self.__starttime))
+        return round(((self.__endtime - self.__starttime) / 1000), 2)

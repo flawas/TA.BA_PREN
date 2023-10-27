@@ -17,9 +17,4 @@ class Datasend:
 
     def send(self, time, energy):
         reply = requests.post(url=self.geturl(), json = {"time": time, "energy": energy})
-        print(reply.status_code)
-
-
-# Class example
-# ds = Datasend("https://i-ba-pren.flaviowaser.ch/upload-data.php")
-# ds.send(1,2)
+        print("Datasend Status Code: " + reply.status_code)
