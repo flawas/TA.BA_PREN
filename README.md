@@ -22,7 +22,8 @@ sudo apt-get install xrdp
 sudo apt install git
 sudo apt-get install python3
 sudo apt -y install python3-pil
-
+sudo pip install playsound
+sudo pip3 install PyObjC
 git clone https://github.com/flawas/TA.BA_PREN_PY.git /home/pi/Desktop/PREN
 ```
 After that the configuration file config.py must be adjusted to your personal settings. 
