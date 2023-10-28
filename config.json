@@ -1,0 +1,9 @@
+{
+  "Data": {
+    "WebURL": "https://i-ba-pren.flaviowaser.ch/upload-data.php",
+    "PRENURL": "http://18.192.48.168:5000/cubes/",
+    "PRENTEAM": "team33",
+    "SendData": "False",
+    "Audiofile": "sound.mp3"
+  }
+}

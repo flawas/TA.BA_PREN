@@ -2,6 +2,7 @@
 # -*- coding:utf-8 -*-
 import sys
 import os
+import logging
 
 picdir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'pic')
 libdir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'lib')
@@ -15,10 +16,10 @@ import time
 from PIL import Image, ImageDraw, ImageFont
 
 
-
 class Display():
 
     def __init__(self):
+        logging.info("Display init")
         self.__font = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), 16)
         self.__epd = epd1in54_V2.EPD()
         self.__epd.init(1)
@@ -32,21 +33,24 @@ class Display():
         return self.__epd
 
     def clearDisplay(self):
+        logging.info("Display clear")
         try:
             self.__epd = epd1in54_V2.EPD()
             self.__epd.init(0)
             self.__epd.Clear(0xFF)
             self.__epd.init(1)
             time.sleep(1)
+
         except IOError as e:
             logging.info(e)
 
         except KeyboardInterrupt:
-            logging.info("ctrl + c:")
+            logging.warning("ctrl + c:")
             epd1in54_V2.epdconfig.module_exit()
             exit()
 
     def drawPicture(self, picture):
+        logging.info("Display drawPicture")
         try:
             self.__epd = epd1in54_V2.EPD()
             self.__epd.init(0)
@@ -55,40 +59,41 @@ class Display():
             time.sleep(15)
 
         except IOError as e:
-            logging.info(e)
-
+            logging.error(e)
 
         except KeyboardInterrupt:
-            logging.info("ctrl + c:")
+            logging.warning("ctrl + c:")
             epd1in54_V2.epdconfig.module_exit()
             exit()
 
     def shutdownDisplay(self):
+        logging.info("Display shutdown")
         self.__epd = epd1in54_V2.EPD()
         self.__epd.init(0)
         self.__epd.Clear(0xFF)
-        logging.info("Display Goto Sleep...")
         self.__epd.sleep()
 
     def drawInitialDisplay(self):
+        logging.info("Display draw initial display")
         try:
             self.__epd.init(1)
             self.updateDisplay(10, 10, 'PREN TEAM 33')
-            #self.updateDisplay(10, 30, 'Initialisierung')
+            # self.updateDisplay(10, 30, 'Initialisierung')
             self.updateDisplay(10, 80, 'Beanspruchte Zeit')
-            #self.updateDisplay(10, 100, 'Sekunden')
+            # self.updateDisplay(10, 100, 'Sekunden')
             self.updateDisplay(10, 150, 'Stromverbrauch')
-            #self.updateDisplay(10, 170, 'kW')
+            # self.updateDisplay(10, 170, 'kW')
 
         except IOError as e:
-            logging.info(e)
+            logging.error(e)
 
         except KeyboardInterrupt:
-            logging.info("ctrl + c:")
+            logging.warning("ctrl + c:")
             epd1in54_V2.epdconfig.module_exit()
             exit()
 
     def updateDisplay(self, x, y, text):
+        logging.info("Display update: x:" + str(x) + ", y: " + str(y) + ", text: " + str(text))
         try:
             self.__epd.init(1)
 
@@ -110,12 +115,11 @@ class Display():
 
             self.__background.save("background_modified.png")
 
-
         except IOError as e:
-            logging.info(e)
+            logging.error(e)
 
         except KeyboardInterrupt:
-            logging.info("ctrl + c:")
+            logging.warning("ctrl + c:")
             epd1in54_V2.epdconfig.module_exit()
             exit()
 
