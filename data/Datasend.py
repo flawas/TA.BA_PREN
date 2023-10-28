@@ -1,5 +1,6 @@
-import requests
 import logging
+
+import requests
 
 
 # JSON Format
@@ -20,5 +21,5 @@ class Datasend:
 
     def send(self, time, energy):
         logging.info("Datasend send")
-        reply = requests.post(url=self.geturl(), json = {"time": time, "energy": energy})
+        reply = requests.post(url=self.geturl(), json={"time": time, "energy": energy})
         logging.info("Datasend Status Code: " + str(reply.status_code))

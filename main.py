@@ -1,11 +1,12 @@
+import json
+import logging
+import time
+
+from audio.Audio import Audio
 from data.Datasend import Datasend
 from data.Dataverify import Dataverify
 from display.Display import Display
 from timemeasure.Timeconsumption import Timeconsumption
-from audio.Audio import Audio
-import time
-import json
-import logging
 
 
 class main:
