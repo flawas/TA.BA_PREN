@@ -2,8 +2,15 @@
   "Data": {
     "WebURL": "https://i-ba-pren.flaviowaser.ch/upload-data.php",
     "PRENURL": "http://18.192.48.168:5000/cubes/",
-    "PRENTEAM": "team33",
+    "PRENTEAM": "team33"
+  },
+  "Machineconfig": {
+    "WebConnection": "False",
+    "EndLoop": "True",
+    "DrawQR": "True",
+    "DrawQRFile": "qrcode.bmp",
+    "Audiofile": "sound.mp3",
     "SendData": "False",
-    "Audiofile": "sound.mp3"
+    "DisplaySleepTimeSeconds": 5
   }
 }
