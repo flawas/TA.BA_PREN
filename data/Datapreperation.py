@@ -62,4 +62,4 @@ class Datapreperation:
 
     def getjson(self):
         data = {'time': strftime("%Y-%m-%d %H:%M:%S", gmtime()),'config': {'1': self.__1, '2': self.__2, '3': self.__3, '4': self.__4, '5': self.__5,'6': self.__6,'7': self.__7, '8': self.__8}}
-        print(json.dumps(data))
+        return json.dumps(data)
