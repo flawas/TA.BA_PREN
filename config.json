@@ -3,7 +3,7 @@
     "WebURL": "https://i-ba-pren.flaviowaser.ch/upload-data.php",
     "PRENURL": "http://18.192.48.168:5000/cubes/",
     "PRENTEAM": "team33",
-    "SHELLYURL": "http://192.168.33.1/rpc/Switch.GetStatus?id=0"
+    "SHELLYURL": "http://192.168.33.1"
   },
   "Machineconfig": {
     "WebConnection": "False",
