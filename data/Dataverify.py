@@ -33,17 +33,15 @@ class Dataverify:
             logging.info("Dataverify checkavailability " + str(resp.status_code))
             return True
         except requests.exceptions.Timeout:
-            logging.error('Dataverify request timeout')
+            logging.error("Dataverify request timeout")
             return False
 
     def checkData(self):
         logging.info("Dataverify checkData")
         headers = CaseInsensitiveDict()
-        headers["Auth"] = "testToken"
-        headers["Content-Type"] = "application/json"
 
-        data = {'time': '2023-10-20 11:27:05',
-                'config': {'1': 'red', '2': 'blue', '3': 'red', '4': 'yellow', '5': '', '6': '', '7': 'yellow',
-                           '8': 'red'}}
-        resp = requests.post(self.getteamurl(), headers=headers, data=data)
-        logging.info('Dataverify request ' + str(resp.status_code))
+        headers["Content-Type"] = "application/json"
+        headers["Auth"] = "testToken"
+        data = {"time": "2023-10-20 11:27:05","config": {"1": "red", "2": "blue", "3": "red", "4": "yellow", "5": "", "6": "", "7": "yellow","8": "red"}}
+        resp = requests.post(self.getteamurl(), headers=headers, json=data)
+        print("Dataverify request " + str(resp.status_code))

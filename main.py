@@ -7,6 +7,7 @@ from data.Datasend import Datasend
 from data.Dataverify import Dataverify
 from display.Display import Display
 from timemeasure.Timeconsumption import Timeconsumption
+from energy.Energyconsumption import Energyconsumption
 
 
 class main:
@@ -22,6 +23,7 @@ class main:
         self.__display.clearDisplay()
         self.__timemeasure = Timeconsumption()
         self.__audio = Audio(str(self.__config['Machineconfig']['Audiofile']))
+        self.__energy = Energyconsumption(str(self.__config['Data']['SHELLYURL']))
 
     def initialization(self):
         logging.info("main initialization")
@@ -44,10 +46,11 @@ class main:
         logging.info("main start")
         self.__display.updateDisplay(10, 30, 'Programm läuft')
         self.__timemeasure.setstarttime()
+        self.__energy.setinitialpower()
 
     def end(self):
         self.__timemeasure.setendtime()
-
+        self.__energy.setendpower()
         logging.info("main end")
 
         # self.__display.updateDisplay(10, 10, 'PREN TEAM 33')
@@ -55,7 +58,7 @@ class main:
         # self.__display.updateDisplay(10, 80, 'Beanspruchte Zeit')
         self.__display.updateDisplay(10, 100, str(self.__timemeasure.getelapsedtime()) + ' Sekunden')
         # self.__display.updateDisplay(10, 150, 'Stromverbrauch')
-        self.__display.updateDisplay(10, 170, 'kW')
+        self.__display.updateDisplay(10, 170, self.__energy.getconsumtpion() + ' Wh')
         self.__audio.playaudio()
 
         time.sleep(str(self.__config['Machineconfig']['DisplaySleepTimeSeconds']))
