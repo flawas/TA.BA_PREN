@@ -30,8 +30,8 @@ class main:
         self.__display.drawInitialDisplay()
         self.__display.updateDisplay(10, 30, 'Initialisierung')
 
+        # Check Web Connection
         if (str(self.__config['Machineconfig']['WebConnection'])) == True:
-
             logging.info('WebConnection True')
             if self.__dataverify.checkavailability():
                 self.__display.updateDisplay(10, 30, 'Conn. PREN-Server OK')
@@ -41,6 +41,18 @@ class main:
         else:
             logging.info('WebConnection False')
             self.__display.updateDisplay(10, 30, 'No internet connection')
+
+        # Check Shelly Connection
+        if (str(self.__config['Machineconfig']['ShellyConnection'])) == True:
+            logging.info('ShellyConnection True')
+            if self.__energy.checkavailability():
+                self.__display.updateDisplay(10, 30, 'Conn. Shelly OK')
+            else:
+                self.__display.updateDisplay(10, 30, 'Conn. Shelly NOK')
+                exit()
+        else:
+            logging.info('ShellyConnection False')
+            self.__display.updateDisplay(10, 30, 'No Shelly connection')
 
     def start(self):
         logging.info("main start")
