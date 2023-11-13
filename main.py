@@ -73,12 +73,12 @@ class main:
         self.__display.updateDisplay(10, 170, self.__energy.getconsumtpion() + ' Wh')
         self.__audio.playaudio()
 
-        time.sleep(str(self.__config['Machineconfig']['DisplaySleepTimeSeconds']))
+        time.sleep(int(self.__config['Machineconfig']['DisplaySleepTimeSeconds']))
 
         if (str(self.__config['Machineconfig']['DrawQR'])) == True:
             self.__display.drawPicture(self.__config['Machineconfig']['DrawQRFile'])
 
-        time.sleep(str(self.__config['Machineconfig']['DisplaySleepTimeSeconds']))
+        time.sleep(int(self.__config['Machineconfig']['DisplaySleepTimeSeconds']))
 
         if (str(self.__config['Machineconfig']['SendData'])) and (str(self.__config['Machineconfig']['WebConnection'])):
             self.__datasend.send(self.__timemeasure.getelapsedtime(), 0.5)
