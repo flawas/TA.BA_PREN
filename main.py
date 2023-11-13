@@ -23,7 +23,7 @@ class main:
         self.__display.clearDisplay()
         self.__timemeasure = Timeconsumption()
         self.__audio = Audio(str(self.__config['Machineconfig']['Audiofile']))
-        self.__energy = Energyconsumption(str(self.__config['Data']['SHELLYURL']))
+        self.__energy = Energyconsumption(str(self.__config['Data']['SHELLYURL']), str(self.__config['Data']['SHELLYDEVID']), str(self.__config['Data']['SHELLYAUTHKEY']))
 
     def initialization(self):
         logging.info("main initialization")
