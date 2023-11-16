@@ -58,11 +58,13 @@ class main:
         logging.info("main start")
         self.__display.updateDisplay(10, 30, 'Programm läuft')
         self.__timemeasure.setstarttime()
-        self.__energy.setinitialpower()
+        if (str(self.__config['Machineconfig']['ShellyConnection'])) == True:
+            self.__energy.setinitialpower()
 
     def end(self):
         self.__timemeasure.setendtime()
-        self.__energy.setendpower()
+        if (str(self.__config['Machineconfig']['ShellyConnection'])) == True:
+            self.__energy.setendpower()
         logging.info("main end")
 
         # self.__display.updateDisplay(10, 10, 'PREN TEAM 33')
@@ -70,7 +72,10 @@ class main:
         # self.__display.updateDisplay(10, 80, 'Beanspruchte Zeit')
         self.__display.updateDisplay(10, 100, str(self.__timemeasure.getelapsedtime()) + ' Sekunden')
         # self.__display.updateDisplay(10, 150, 'Stromverbrauch')
-        self.__display.updateDisplay(10, 170, self.__energy.getconsumtpion() + ' Wh')
+        if (str(self.__config['Machineconfig']['ShellyConnection'])) == True:
+            self.__display.updateDisplay(10, 170, self.__energy.getconsumtpion() + ' Wh')
+        else:
+            self.__display.updateDisplay(10, 170, 'No Shelly connection')
         self.__audio.playaudio()
 
         time.sleep(int(self.__config['Machineconfig']['DisplaySleepTimeSeconds']))

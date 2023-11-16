@@ -9,7 +9,7 @@
   },
   "Machineconfig": {
     "WebConnection": "False",
-    "ShellyConnection": "True",
+    "ShellyConnection": "False",
     "EndLoop": "True",
     "DrawQR": "True",
     "DrawQRFile": "qrcode.bmp",
