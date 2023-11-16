@@ -12,6 +12,16 @@ class Energyconsumption:
         self.__authkey = authkey
         self.__endpower = 0
         self.__initialpower = 0
+        self.__cloudstatus = False
+
+    def checkcloudstatus(self):
+        logging.info("Energyconsumption checkcloudstatus")
+        j = json.loads(self.getdata())
+        self.__cloudstatus = j["data"]["online"]
+        if (self.__cloudstatus == True):
+            return True
+        else:
+            return False
 
     def getdata(self):
         logging.info("Energyconsumption  getdata")
@@ -19,14 +29,6 @@ class Energyconsumption:
         reply = requests.post("https://shelly-21-eu.shelly.cloud/device/status", data=data)
         logging.info("Energyconsumption Data: " + str(reply.content))
         return reply.content
-
-    def switchoff(self):
-        requests.post(self.__url + "/relay/0?turn=off")
-        logging.info("Energyconsumption Set Switch OFF")
-
-    def switchon(self):
-        requests.post(self.__url + "/relay/0?turn=on")
-        logging.info("Energyconsumption Set Switch ON")
 
     def setinitialpower(self):
         j = json.loads(self.getdata())
