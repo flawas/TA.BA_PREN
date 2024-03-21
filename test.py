@@ -5,7 +5,6 @@ from multiprocessing import Process
 from waveshare_epd import epd1in54_V2, epdconfig
 from PIL import Image, ImageDraw, ImageFont
 
-
 def display():
     print("Pause")
 
