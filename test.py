@@ -12,6 +12,7 @@ def display():
 
 def worker(dataconfig):
     # Engine.setup()
+    Engine.piezo()
 
     print(dataconfig.getconfig())
 
@@ -53,6 +54,7 @@ def worker(dataconfig):
             Engine.turnRight()
             Engine.turnRight()
 
+    Engine.piezo()
     sys.exit(0)
 
 
@@ -67,16 +69,16 @@ def emergencyWatcher():
 
 
 if __name__ == '__main__':
-    # picdir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'pic')
-    # epd = epd1in54_V2.EPD()
-    # epd.init(1)
-    # background = os.path.join('/home/pi/Desktop/PREN_2/pic/background.bmp')
-    # backgroundmodified = os.path.join('/home/pi/Desktop/PREN_2/pic/background_modified.bmp')
-    # font = os.path.join('/home/pi/Desktop/PREN_2/pic/Font.ttc')
-    # Display.clearDisplay(epd)
+    picdir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'pic')
+    epd = epd1in54_V2.EPD()
+    epd.init(1)
+    background = os.path.join('/home/pi/Desktop/PREN_2/pic/background.bmp')
+    backgroundmodified = os.path.join('/home/pi/Desktop/PREN_2/pic/background_modified.bmp')
+    font = os.path.join('/home/pi/Desktop/PREN_2/pic/Font.ttc')
+    Display.clearDisplay(epd)
 
-    # Display.drawInitialDisplay(epd, background, backgroundmodified, font)
-    # Display.updateDisplay(epd, 10, 30, '', background, backgroundmodified, font)
+    Display.drawInitialDisplay(epd, background, backgroundmodified, font)
+    Display.updateDisplay(epd, 10, 30, '', background, backgroundmodified, font)
 
     DataPreparation.setPos(1, "Yellow")
     DataPreparation.setPos(2, "Red")
@@ -92,16 +94,16 @@ if __name__ == '__main__':
     threadEngine = threading.Thread(target=worker, args=(DataPreparation,))
 
     # Button Threads
-    # threadStartButton = threading.Thread(target = startButton)
-    # threadEmergencyButton = threading.Thread(target = emergencyWatcher)
-    # threadEmergencyButton.start()
-    # threadStartButton.start()
-    # threadStartButton.join()
-    # Display.updateDisplay(epd, 10, 30, 'Bob the builder is running...', background, backgroundmodified, font)
+    threadStartButton = threading.Thread(target=startButton)
+    threadEmergencyButton = threading.Thread(target=emergencyWatcher)
+    threadEmergencyButton.start()
+    threadStartButton.start()
+    threadStartButton.join()
+    Display.updateDisplay(epd, 10, 30, 'Bob the builder is running...', background, backgroundmodified, font)
 
     threadEngine.start()
 
-    Engine.piezo()
+    threadEngine.join()
     Display.updateDisplay(epd, 10, 30, 'Bob the builder finished!', background, backgroundmodified, font)
     time.sleep(10)
     Display.shutdownDisplay(epd)
