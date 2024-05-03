@@ -1,4 +1,6 @@
-from PREN_flawas import Engine, Display, DataPreparation, Videostream, DataVerify, ColorRecognition
+import logging
+
+from PREN_flawas import Engine, Display, DataPreparation, DataVerify, ColorRecognition
 import os, threading, json, sys, time
 import RPi.GPIO as GPIO
 from time import gmtime, strftime
@@ -9,545 +11,555 @@ from PIL import Image, ImageDraw, ImageFont
 
 
 def picrecog():
-    maxColor = Videostream.get_max_pixel('147.88.48.131', 'pren', '463997', 'pren_profile_med', 600)
-    while (True):
-        if (Videostream.open_camera_profile('147.88.48.131', 'pren', '463997', 'pren_profile_med', maxColor) == True):
-            Videostream.writeScreenshot('147.88.48.131', 'pren', '463997', 'pren_profile_med', "Screenshot1")
-            time.sleep(11.5)
-            Videostream.writeScreenshot('147.88.48.131', 'pren', '463997', 'pren_profile_med', "Screenshot2")
-            break
+    ColorRecognition.open_camera_profile('147.88.48.131', 'pren', '463997', 'pren_profile_med', 'Screenshot1')
+    logging.info("Screenshot 1 done")
+    ColorRecognition.getColors(1, 'Screenshot1.png')
+    time.sleep(6)
+
+    ColorRecognition.writeScreenshot('147.88.48.131', 'pren', '463997', 'pren_profile_med', 'Screenshot2')
+    logging.info("Screenshot 2 done")
+    ColorRecognition.getColors(2, 'Screenshot2.png')
+    time.sleep(6)
+    ColorRecognition.writeScreenshot('147.88.48.131', 'pren', '463997', 'pren_profile_med', 'Screenshot3')
+    logging.info("Screenshot 3 done")
+    ColorRecognition.getColors(3, 'Screenshot3.png')
+    logging.info(ColorRecognition.getResult())
+    logging.info("PosPlate: " + str(ColorRecognition.getPosPlate()))
 
 
 def workerOne(cube):
+    logging.info("Worker One starting")
+    logging.debug(cube)
+    logging.debug(cube[1])
     # 1 = Gelb, 2 = Rot, 3 = Blau, 4= Nothing
-    if cube[1] == "red":
+    if cube[1] == "Red":
         Engine.solRed()
-        if cube[2] == "yellow":
+        if cube[2] == "Yellow":
             Engine.solYellow()
-        if cube[2] == "red":
+        if cube[2] == "Red":
             Engine.turnRight()
             Engine.solRed()
             Engine.turnLeft()
-        if cube[2] == "blue":
+        if cube[2] == "Blue":
             Engine.turnRight()
             Engine.turnRight()
             Engine.solBlue()
             Engine.turnRight()
             Engine.turnRight()
 
-    if cube[1] == "yellow":
+    if cube[1] == "Yellow":
         Engine.solYellow()
-        if cube[2] == "nothing":
+        if cube[2] == "Nothing":
             Engine.turnRight()
-        if cube[2] == "yellow":
+        if cube[2] == "Yellow":
             Engine.turnRight()
             Engine.solYellow()
-        if cube[2] == "red":
+        if cube[2] == "Red":
             Engine.turnRight()
             Engine.turnRight()
             Engine.solRed()
             Engine.turnLeft()
-        if cube[2] == "blue":
+        if cube[2] == "Blue":
             Engine.turnLeft()
             Engine.solBlue()
             Engine.turnLeft()
             Engine.turnLeft()
 
-    if cube[1] == "blue":
+    if cube[1] == "Blue":
         Engine.solBlue()
-        if cube[2] == "nothing":
+        if cube[2] == "Nothing":
             Engine.turnLeft()
-        if cube[2] == "yellow":
+        if cube[2] == "Yellow":
             Engine.turnLeft()
             Engine.solYellow()
-        if cube[2] == "red":
+        if cube[2] == "Red":
             Engine.solRed()
             Engine.turnLeft()
-        if cube[2] == "blue":
+        if cube[2] == "Blue":
             Engine.turnLeft()
             Engine.solBlue()
             Engine.turnLeft()
 
-    if cube[1] == "nothing":
-        if cube[2] == "yellow":
+    if cube[1] == "Nothing":
+        if cube[2] == "Yellow":
             Engine.solYellow()
-        if cube[2] == "red":
+        if cube[2] == "Red":
             Engine.solRed()
             Engine.turnLeft()
-        if cube[2] == "blue":
+        if cube[2] == "Blue":
             Engine.solBlue()
             Engine.turnLeft()
             Engine.turnLeft()
     sys.exit(0)
 
 def workerTwo(cube):
-    if cube[4] == "nothing":
-        if cube[5] == "yellow":
+    if cube[4] == "Nothing":
+        if cube[5] == "Yellow":
             Engine.turnRight()
             Engine.solYellow()
-            if cube[8] == "nothing":
+            if cube[8] == "Nothing":
                 Engine.turnLeft()
-            if cube[8] == "yellow":
+            if cube[8] == "Yellow":
                 Engine.solYellow()
                 Engine.turnLeft()
-            if cube[8] == "red":
+            if cube[8] == "Red":
                 Engine.turnRight()
                 Engine.solRed()
                 Engine.turnRight()
                 Engine.turnRight()
-            if cube[8] == "blue":
+            if cube[8] == "Blue":
                 Engine.turnRight()
                 Engine.turnRight()
                 Engine.solBlue()
                 Engine.turnRight()
 
-        if cube[5] == "red":
+        if cube[5] == "Red":
             Engine.turnLeft()
             Engine.turnLeft()
             Engine.solRed()
-            if cube[8] == "nothing":
+            if cube[8] == "Nothing":
                 Engine.turnLeft()
                 Engine.turnLeft()
-            if cube[8] == "yellow":
+            if cube[8] == "Yellow":
                 Engine.turnLeft()
                 Engine.solYellow()
                 Engine.turnLeft()
-            if cube[8] == "red":
+            if cube[8] == "Red":
                 Engine.solRed()
                 Engine.turnLeft()
                 Engine.turnLeft()
-            if cube[8] == "blue":
+            if cube[8] == "Blue":
                 Engine.turnRight()
                 Engine.solBlue()
                 Engine.turnRight()
 
-        if cube[8] == "blue":
+        if cube[8] == "Blue":
             Engine.turnLeft()
             Engine.solBlue()
-            if cube[8] == "nothing":
+            if cube[8] == "Nothing":
                 Engine.turnRight()
-            if cube[8] == "yellow":
+            if cube[8] == "Yellow":
                 Engine.turnLeft()
                 Engine.turnLeft()
                 Engine.solYellow()
                 Engine.turnLeft()
-            if cube[8] == "red":
+            if cube[8] == "Red":
                 Engine.turnLeft()
                 Engine.solRed()
                 Engine.turnLeft()
                 Engine.turnLeft()
-            if cube[8] == "blue":
+            if cube[8] == "Blue":
                 Engine.solBlue()
                 Engine.turnRight()
 
-    if cube[4] == "yellow":
+    if cube[4] == "Yellow":
         Engine.turnLeft()
         Engine.solYellow()
-        if cube[5] == "nothing":
+        if cube[5] == "Nothing":
             Engine.turnRight()
-        if cube[5] == "yellow":
+        if cube[5] == "Yellow":
             Engine.turnLeft()
             Engine.turnLeft()
             Engine.solYellow()
-            if cube[8] == "nothing":
+            if cube[8] == "Nothing":
                 Engine.turnLeft()
-            if cube[8] == "yellow":
+            if cube[8] == "Yellow":
                 Engine.solYellow()
                 Engine.turnLeft()
-            if cube[8] == "red":
+            if cube[8] == "Red":
                 Engine.turnRight()
                 Engine.solRed()
                 Engine.turnRight()
                 Engine.turnRight()
-            if cube[8] == "blue":
+            if cube[8] == "Blue":
                 Engine.turnRight()
                 Engine.turnRight()
                 Engine.solBlue()
                 Engine.turnRight()
 
-        if cube[5] == "red":
+        if cube[5] == "Red":
             Engine.turnLeft()
             Engine.solRed()
-            if cube[8] == "nothing":
+            if cube[8] == "Nothing":
                 Engine.turnLeft()
                 Engine.turnLeft()
-            if cube[8] == "yellow":
+            if cube[8] == "Yellow":
                 Engine.turnLeft()
                 Engine.solYellow()
                 Engine.turnLeft()
-            if cube[8] == "red":
+            if cube[8] == "Red":
                 Engine.solRed()
                 Engine.turnLeft()
                 Engine.turnLeft()
-            if cube[8] == "blue":
+            if cube[8] == "Blue":
                 Engine.turnRight()
                 Engine.solBlue()
                 Engine.turnRight()
 
-        if cube[5] == "blue":
+        if cube[5] == "Blue":
             Engine.solBlue()
-            if cube[8] == "nothing":
+            if cube[8] == "Nothing":
                 Engine.turnRight()
-            if cube[8] == "yellow":
+            if cube[8] == "Yellow":
                 Engine.turnLeft()
                 Engine.turnLeft()
                 Engine.solYellow()
                 Engine.turnLeft()
-            if cube[8] == "red":
+            if cube[8] == "Red":
                 Engine.turnLeft()
                 Engine.solRed()
                 Engine.turnLeft()
                 Engine.turnLeft()
-            if cube[8] == "blue":
+            if cube[8] == "Blue":
                 Engine.solBlue()
                 Engine.turnRight()
 
-    if cube[4] == "red":
+    if cube[4] == "Red":
         Engine.solRed()
-        if cube[5] == "yellow":
+        if cube[5] == "Yellow":
             Engine.turnRight()
             Engine.solYellow()
-            if cube[8] == "nothing":
+            if cube[8] == "Nothing":
                 Engine.turnLeft()
-            if cube[8] == "yellow":
+            if cube[8] == "Yellow":
                 Engine.solYellow()
                 Engine.turnLeft()
-            if cube[8] == "red":
+            if cube[8] == "Red":
                 Engine.turnRight()
                 Engine.solRed()
                 Engine.turnRight()
                 Engine.turnRight()
-            if cube[8] == "blue":
+            if cube[8] == "Blue":
                 Engine.turnRight()
                 Engine.turnRight()
                 Engine.solBlue()
                 Engine.turnRight()
 
-        if cube[5] == "red":
+        if cube[5] == "Red":
             Engine.turnLeft()
             Engine.turnLeft()
             Engine.solRed()
-            if cube[8] == "nothing":
+            if cube[8] == "Nothing":
                 Engine.turnLeft()
                 Engine.turnLeft()
-            if cube[8] == "yellow":
+            if cube[8] == "Yellow":
                 Engine.turnLeft()
                 Engine.solYellow()
                 Engine.turnLeft()
-            if cube[8] == "red":
+            if cube[8] == "Red":
                 Engine.solRed()
                 Engine.turnLeft()
                 Engine.turnLeft()
-            if cube[8] == "blue":
+            if cube[8] == "Blue":
                 Engine.turnRight()
                 Engine.solBlue()
                 Engine.turnRight()
 
-        if cube[5] == "blue":
+        if cube[5] == "Blue":
             Engine.turnLeft()
             Engine.solBlue()
-            if cube[8] == "nothing":
+            if cube[8] == "Nothing":
                 Engine.turnRight()
-            if cube[8] == "yellow":
+            if cube[8] == "Yellow":
                 Engine.turnLeft()
                 Engine.turnLeft()
                 Engine.solYellow()
                 Engine.turnLeft()
-            if cube[8] == "red":
+            if cube[8] == "Red":
                 Engine.turnLeft()
                 Engine.solRed()
                 Engine.turnLeft()
                 Engine.turnLeft()
-            if cube[8] == "blue":
+            if cube[8] == "Blue":
                 Engine.solBlue()
                 Engine.turnRight()
 
-    if cube[4] == "blue":
+    if cube[4] == "Blue":
         Engine.turnRight()
         Engine.solBlue()
-        if cube[5] == "nothing":
+        if cube[5] == "Nothing":
             Engine.turnLeft()
-        if cube[5] == "yellow":
+        if cube[5] == "Yellow":
             Engine.solYellow()
-            if cube[8] == "nothing":
+            if cube[8] == "Nothing":
                 Engine.turnLeft()
-            if cube[8] == "yellow":
+            if cube[8] == "Yellow":
                 Engine.solYellow()
                 Engine.turnLeft()
-            if cube[8] == "red":
+            if cube[8] == "Red":
                 Engine.turnRight()
                 Engine.solRed()
                 Engine.turnRight()
                 Engine.turnRight()
-            if cube[8] == "blue":
+            if cube[8] == "Blue":
                 Engine.turnRight()
                 Engine.turnRight()
                 Engine.solBlue()
                 Engine.turnRight()
 
-        if cube[5] == "red":
+        if cube[5] == "Red":
             Engine.turnRight()
             Engine.solRed()
-            if cube[8] == "nothing":
+            if cube[8] == "Nothing":
                 Engine.turnLeft()
                 Engine.turnLeft()
-            if cube[8] == "yellow":
+            if cube[8] == "Yellow":
                 Engine.turnLeft()
                 Engine.solYellow()
                 Engine.turnLeft()
-            if cube[8] == "red":
+            if cube[8] == "Red":
                 Engine.solRed()
                 Engine.turnLeft()
                 Engine.turnLeft()
-            if cube[8] == "blue":
+            if cube[8] == "Blue":
                 Engine.turnRight()
                 Engine.solBlue()
                 Engine.turnRight()
 
-        if cube[5] == "blue":
+        if cube[5] == "Blue":
             Engine.turnRight()
             Engine.turnRight()
             Engine.solBlue()
-            if cube[8] == "nothing":
+            if cube[8] == "Nothing":
                 Engine.turnRight()
-            if cube[8] == "yellow":
+            if cube[8] == "Yellow":
                 Engine.turnLeft()
                 Engine.turnLeft()
                 Engine.solYellow()
                 Engine.turnLeft()
-            if cube[8] == "red":
+            if cube[8] == "Red":
                 Engine.turnLeft()
                 Engine.solRed()
                 Engine.turnLeft()
                 Engine.turnLeft()
-            if cube[8] == "blue":
+            if cube[8] == "Blue":
                 Engine.solBlue()
                 Engine.turnRight()
     sys.exit(0)
 
 def workerThree(cube):
-    if cube[3] == "nothing":
-        if cube[6] == "yellow":
+    if cube[3] == "Nothing":
+        if cube[6] == "Yellow":
             Engine.turnRight()
             Engine.turnRight()
             Engine.solYellow()
-            if cube[7] == "nothing":
+            if cube[7] == "Nothing":
                 Engine.turnRight()
                 Engine.turnRight()
-            if cube[7] == "yellow":
+            if cube[7] == "Yellow":
                 Engine.solYellow()
                 Engine.turnRight()
                 Engine.turnRight()
-            if cube[7] == "red":
+            if cube[7] == "Red":
                 Engine.turnRight()
                 Engine.solRed()
                 Engine.turnRight()
-            if cube[7] == "blue":
+            if cube[7] == "Blue":
                 Engine.turnRight()
                 Engine.turnRight()
                 Engine.solBlue()
 
-        if cube[6] == "red":
+        if cube[6] == "Red":
             Engine.turnLeft()
             Engine.solRed()
-            if cube[7] == "nothing":
+            if cube[7] == "Nothing":
                 Engine.turnRight()
-            if cube[7] == "yellow":
+            if cube[7] == "Yellow":
                 Engine.turnLeft()
                 Engine.solYellow()
                 Engine.turnLeft()
                 Engine.turnLeft()
-            if cube[7] == "red":
+            if cube[7] == "Red":
                 Engine.solRed()
                 Engine.turnRight()
-            if cube[7] == "blue":
+            if cube[7] == "Blue":
                 Engine.turnRight()
                 Engine.solBlue()
 
-        if cube[6] == "blue":
+        if cube[6] == "Blue":
             Engine.solBlue()
-            if cube[7] == "yellow":
+            if cube[7] == "Yellow":
                 Engine.turnLeft()
                 Engine.turnLeft()
                 Engine.solYellow()
                 Engine.turnLeft()
                 Engine.turnLeft()
-            if cube[7] == "red":
+            if cube[7] == "Red":
                 Engine.turnLeft()
                 Engine.solRed()
                 Engine.turnRight()
-            if cube[7] == "blue":
+            if cube[7] == "Blue":
                 Engine.solBlue()
 
-    if cube[3] == "yellow":
+    if cube[3] == "Yellow":
         Engine.solYellow()
-        if cube[6] == "yellow":
+        if cube[6] == "Yellow":
             Engine.turnLeft()
             Engine.turnLeft()
             Engine.solYellow()
-            if cube[7] == "nothing":
+            if cube[7] == "Nothing":
                 Engine.turnRight()
                 Engine.turnRight()
-            if cube[7] == "yellow":
+            if cube[7] == "Yellow":
                 Engine.solYellow()
                 Engine.turnRight()
                 Engine.turnRight()
-            if cube[7] == "red":
+            if cube[7] == "Red":
                 Engine.turnRight()
                 Engine.solRed()
                 Engine.turnRight()
-            if cube[7] == "blue":
+            if cube[7] == "Blue":
                 Engine.turnRight()
                 Engine.turnRight()
                 Engine.solBlue()
 
-        if cube[6] == "red":
+        if cube[6] == "Red":
             Engine.turnLeft()
             Engine.solRed()
-            if cube[7] == "nothing":
+            if cube[7] == "Nothing":
                 Engine.turnRight()
-            if cube[7] == "yellow":
+            if cube[7] == "Yellow":
                 Engine.turnLeft()
                 Engine.solYellow()
                 Engine.turnLeft()
                 Engine.turnLeft()
-            if cube[7] == "red":
+            if cube[7] == "Red":
                 Engine.solRed()
                 Engine.turnRight()
-            if cube[7] == "blue":
+            if cube[7] == "Blue":
                 Engine.turnRight()
                 Engine.solBlue()
 
-        if cube[6] == "blue":
+        if cube[6] == "Blue":
             Engine.solBlue()
-            if cube[7] == "yellow":
+            if cube[7] == "Yellow":
                 Engine.turnLeft()
                 Engine.turnLeft()
                 Engine.solYellow()
                 Engine.turnLeft()
                 Engine.turnLeft()
-            if cube[7] == "red":
+            if cube[7] == "Red":
                 Engine.turnLeft()
                 Engine.solRed()
                 Engine.turnRight()
-            if cube[7] == "blue":
+            if cube[7] == "Blue":
                 Engine.solBlue()
 
-    if cube[3] == "red":
-        Engine.turnRight():
+    if cube[3] == "Red":
+        Engine.turnRight()
         Engine.solRed()
-        if cube[6] == "nothing":
+        if cube[6] == "Nothing":
             Engine.turnLeft()
-        if cube[6] == "yellow":
+        if cube[6] == "Yellow":
             Engine.turnRight()
             Engine.solYellow()
-            if cube[7] == "nothing":
+            if cube[7] == "Nothing":
                 Engine.turnRight()
                 Engine.turnRight()
-            if cube[7] == "yellow":
+            if cube[7] == "Yellow":
                 Engine.solYellow()
                 Engine.turnRight()
                 Engine.turnRight()
-            if cube[7] == "red":
+            if cube[7] == "Red":
                 Engine.turnRight()
                 Engine.solRed()
                 Engine.turnRight()
-            if cube[7] == "blue":
+            if cube[7] == "Blue":
                 Engine.turnRight()
                 Engine.turnRight()
                 Engine.solBlue()
 
-        if cube[6] == "red":
+        if cube[6] == "Red":
             Engine.turnRight()
             Engine.turnRight()
             Engine.solRed()
-            if cube[7] == "nothing":
+            if cube[7] == "Nothing":
                 Engine.turnRight()
-            if cube[7] == "yellow":
+            if cube[7] == "Yellow":
                 Engine.turnLeft()
                 Engine.solYellow()
                 Engine.turnLeft()
                 Engine.turnLeft()
-            if cube[7] == "red":
+            if cube[7] == "Red":
                 Engine.solRed()
                 Engine.turnRight()
-            if cube[7] == "blue":
+            if cube[7] == "Blue":
                 Engine.turnRight()
                 Engine.solBlue()
 
-        if cube[6] == "blue":
+        if cube[6] == "Blue":
             Engine.turnLeft()
             Engine.solBlue()
-            if cube[7] == "yellow":
+            if cube[7] == "Yellow":
                 Engine.turnLeft()
                 Engine.turnLeft()
                 Engine.solYellow()
                 Engine.turnLeft()
                 Engine.turnLeft()
-            if cube[7] == "red":
+            if cube[7] == "Red":
                 Engine.turnLeft()
                 Engine.solRed()
                 Engine.turnRight()
-            if cube[7] == "blue":
+            if cube[7] == "Blue":
                 Engine.solBlue()
 
-    if cube[3] == "blue":
+    if cube[3] == "Blue":
         Engine.turnRight()
         Engine.turnRight()
         Engine.solBlue()
-        if cube[6] == "nothing":
+        if cube[6] == "Nothing":
             Engine.turnRight()
             Engine.turnRight()
-        if cube[6] == "yellow":
+        if cube[6] == "Yellow":
             Engine.solYellow()
-            if cube[7] == "nothing":
+            if cube[7] == "Nothing":
                 Engine.turnRight()
                 Engine.turnRight()
-            if cube[7] == "yellow":
+            if cube[7] == "Yellow":
                 Engine.solYellow()
                 Engine.turnRight()
                 Engine.turnRight()
-            if cube[7] == "red":
+            if cube[7] == "Red":
                 Engine.turnRight()
                 Engine.solRed()
                 Engine.turnRight()
-            if cube[7] == "blue":
+            if cube[7] == "Blue":
                 Engine.turnRight()
                 Engine.turnRight()
                 Engine.solBlue()
 
-        if cube[6] == "red":
+        if cube[6] == "Red":
             Engine.turnRight()
             Engine.solRed()
-            if cube[7] == "nothing":
+            if cube[7] == "Nothing":
                 Engine.turnRight()
-            if cube[7] == "yellow":
+            if cube[7] == "Yellow":
                 Engine.turnLeft()
                 Engine.solYellow()
                 Engine.turnLeft()
                 Engine.turnLeft()
-            if cube[7] == "red":
+            if cube[7] == "Red":
                 Engine.solRed()
                 Engine.turnRight()
-            if cube[7] == "blue":
+            if cube[7] == "Blue":
                 Engine.turnRight()
                 Engine.solBlue()
 
-        if cube[6] == "blue":
+        if cube[6] == "Blue":
             Engine.turnLeft()
             Engine.turnLeft()
             Engine.solBlue()
-            if cube[7] == "yellow":
+            if cube[7] == "Yellow":
                 Engine.turnLeft()
                 Engine.turnLeft()
                 Engine.solYellow()
                 Engine.turnLeft()
                 Engine.turnLeft()
-            if cube[7] == "red":
+            if cube[7] == "Red":
                 Engine.turnLeft()
                 Engine.solRed()
                 Engine.turnRight()
-            if cube[7] == "blue":
+            if cube[7] == "Blue":
                 Engine.solBlue()
     sys.exit(0)
 
@@ -570,9 +582,9 @@ if __name__ == '__main__':
 
     Display.drawInitialDisplay(epd, background, backgroundmodified, font)
 
-    Display.clearDisplay(epd)
-    Display.shutdownDisplay(epd)
-    time.sleep(10)
+    #Display.clearDisplay(epd)
+    #Display.shutdownDisplay(epd)
+    #time.sleep(10)
 
     # Engine Setup
     Engine.setup()
