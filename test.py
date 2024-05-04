@@ -1,5 +1,4 @@
 import logging
-
 from PREN_flawas import Engine, Display, DataPreparation, DataVerify, ColorRecognition
 import os, threading, json, sys, time
 import RPi.GPIO as GPIO
@@ -37,9 +36,8 @@ def workerOne(cube):
         if cube[2] == "Yellow":
             Engine.solYellow()
         if cube[2] == "Red":
-            Engine.turnRight()
-            Engine.solRed()
             Engine.turnLeft()
+            Engine.solRed()
         if cube[2] == "Blue":
             Engine.turnRight()
             Engine.turnRight()
@@ -133,7 +131,7 @@ def workerTwo(cube):
                 Engine.solBlue()
                 Engine.turnRight()
 
-        if cube[8] == "Blue":
+        if cube[5] == "Blue":
             Engine.turnLeft()
             Engine.solBlue()
             if cube[8] == "Nothing":
