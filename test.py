@@ -609,17 +609,19 @@ if __name__ == '__main__':
     threadPicRecOne.start()
     threadPicRecOne.join()
     ColorRecognition.getColors(1, "Screenshot1.png")
+    ColorRecognition.getColors(2, "Screenshot2.png") # Wieder entfernen 
+    ColorRecognition.getColors(3, "Screenshot3.png") # Wieder entfernen
     cube = ColorRecognition.getResult()
 
     # Bob the builder ONE
     threadEngineOne = threading.Thread(target=workerOne, args=(cube,))
     threadEngineOne.start()
 
-    ColorRecognition.getColors(2, "Screenshot2.png")
+    ColorRecognition.getColors(2, "Screenshot2.png")    
     cube = ColorRecognition.getResult()
 
     # Bob the builder TWO
-    threadEngineOne.join()
+    """threadEngineOne.join()
     threadEngineTwo = threading.Thread(target=workerTwo, args=(cube,))
     threadEngineTwo.start()
 
@@ -628,8 +630,7 @@ if __name__ == '__main__':
     # Bob the builder Three
     threadEngineTwo.join()
     threadEngineThree = threading.Thread(target=workerThree, args=(cube,))
-    threadEngineThree.start()
-
+    threadEngineThree.start()"""
 
     if(ColorRecognition.getPosPlate() == 1):
         DataPreparation.setPos(1, cube[1])
