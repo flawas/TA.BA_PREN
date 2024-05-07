@@ -88,9 +88,10 @@ def workerOne(cube):
             Engine.solBlue()
             Engine.turnLeft()
             Engine.turnLeft()
-    sys.exit(0)
+    """sys.exit(0)
 
-def workerTwo(cube):
+def workerTwo(cube):"""
+
     if cube[4] == "Nothing":
         if cube[5] == "Yellow":
             Engine.turnRight()
@@ -333,9 +334,9 @@ def workerTwo(cube):
             if cube[8] == "Blue":
                 Engine.solBlue()
                 Engine.turnRight()
-    sys.exit(0)
+    """sys.exit(0)
 
-def workerThree(cube):
+def workerThree(cube):"""
     if cube[3] == "Nothing":
         if cube[6] == "Yellow":
             Engine.turnRight()
