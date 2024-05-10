@@ -13,12 +13,13 @@ def picrecog():
     ColorRecognition.open_camera_profile('147.88.48.131', 'pren', '463997', 'pren_profile_med', 'Screenshot1')
     logging.info("Screenshot 1 done")
     ColorRecognition.getColors(1, 'Screenshot1.png')
-    time.sleep(6)
-
+    time.sleep(5.8)
+    print(ColorRecognition.getResult())
     ColorRecognition.writeScreenshot('147.88.48.131', 'pren', '463997', 'pren_profile_med', 'Screenshot2')
     logging.info("Screenshot 2 done")
     ColorRecognition.getColors(2, 'Screenshot2.png')
-    time.sleep(6)
+    time.sleep(5.2)
+    print(ColorRecognition.getResult())
     ColorRecognition.writeScreenshot('147.88.48.131', 'pren', '463997', 'pren_profile_med', 'Screenshot3')
     logging.info("Screenshot 3 done")
     ColorRecognition.getColors(3, 'Screenshot3.png')
@@ -558,15 +559,16 @@ def workerTwo(cube):"""
                 Engine.turnRight()
             if cube[7] == "Blue":
                 Engine.solBlue()
-        sys.exit(0)
 
-if(ColorRecognition.getPosPlate() == 2):
-    Engine.turnRight()
-if(ColorRecognition.getPosPlate() == 3):
-    Engine.turnLeft()
-if(ColorRecognition.getPosPlate() == 4):
-    Engine.turnLeft()
-    Engine.turnLeft()
+    if(ColorRecognition.getPosPlate() == 2):
+        Engine.turnRight()
+    if(ColorRecognition.getPosPlate() == 3):
+        Engine.turnLeft()
+    if(ColorRecognition.getPosPlate() == 4):
+        Engine.turnLeft()
+        Engine.turnLeft()
+    Engine.solWeight()
+    sys.exit(0)
 
 
 
@@ -618,7 +620,7 @@ if __name__ == '__main__':
     threadPicRecOne.join()
     ColorRecognition.getColors(1, "Screenshot1.png")
     ColorRecognition.getColors(2, "Screenshot2.png") # Wieder entfernen
-    ColorRecognition.getColors(3, "Screenshot3.png") # Wieder entfernen     
+    ColorRecognition.getColors(3, "Screenshot3.png") # Wieder entfernen
     cube = ColorRecognition.getResult()
 
     # Bob the builder ONE
@@ -653,11 +655,11 @@ if __name__ == '__main__':
     if(ColorRecognition.getPosPlate() == 2):
         DataPreparation.setPos(6, cube[1])
         DataPreparation.setPos(1, cube[2])
-        DataPreparation.setPos(8, cube[3])
+        DataPreparation.setPos(4, cube[3])
         DataPreparation.setPos(3, cube[4])
         DataPreparation.setPos(2, cube[5])
         DataPreparation.setPos(5, cube[6])
-        DataPreparation.setPos(4, cube[7])
+        DataPreparation.setPos(8, cube[7])
         DataPreparation.setPos(7, cube[8])
 
     if (ColorRecognition.getPosPlate() == 3):
@@ -691,17 +693,21 @@ if __name__ == '__main__':
     DataPreparation.setPos(8, "Yellow")
     '''
     data = DataPreparation.getjson()
-    DataVerify.sendData("https://oawz3wjih1.execute-api.eu-central-1.amazonaws.com/cubes/team33/config", "QBg3kjqB59xN",
-                        data)
+    DataVerify.sendData("https://oawz3wjih1.execute-api.eu-central-1.amazonaws.com/cubes/team33/config", "QBg3kjqB59xN", data)
 
     DataVerify.sendStatus("https://oawz3wjih1.execute-api.eu-central-1.amazonaws.com/cubes/team33/end", "QBg3kjqB59xN")
     later = datetime.now()
+
+    threadEngineOne.join()
     Display.updateDisplay(epd, 10, 30, 'Bob the builder finished!', background, backgroundmodified, font)
     difference = (later - now).total_seconds()
     print(f"Time difference in seconds: {int(difference)}")
     text = str(int(difference)) + " Sekunden"
     Display.updateDisplay(epd, 10, 100, text, background, backgroundmodified, font)
+
+    time.sleep(20)
     Display.drawPicture(epd, 'pic/bob.bmp')
-    time.sleep(10)
+    time.sleep(20)
     Display.clearDisplay(epd)
     Display.shutdownDisplay(epd)
+    sys.exit(0)
