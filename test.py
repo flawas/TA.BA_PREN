@@ -47,7 +47,7 @@ def workerOne(cube):
 
     if cube[1] == "Yellow":
         Engine.solYellow()
-        if cube[2] == " ":
+        if cube[2] == "":
             Engine.turnRight()
         if cube[2] == "Yellow":
             Engine.turnRight()
@@ -65,7 +65,7 @@ def workerOne(cube):
 
     if cube[1] == "Blue":
         Engine.solBlue()
-        if cube[2] == " ":
+        if cube[2] == "":
             Engine.turnLeft()
         if cube[2] == "Yellow":
             Engine.turnLeft()
@@ -78,7 +78,7 @@ def workerOne(cube):
             Engine.solBlue()
             Engine.turnLeft()
 
-    if cube[1] == " ":
+    if cube[1] == "":
         if cube[2] == "Yellow":
             Engine.solYellow()
         if cube[2] == "Red":
@@ -90,11 +90,11 @@ def workerOne(cube):
             Engine.turnLeft()
     """sys.exit(0)
 def workerTwo(cube):"""
-    if cube[4] == " ":
+    if cube[4] == "":
         if cube[5] == "Yellow":
             Engine.turnRight()
             Engine.solYellow()
-            if cube[8] == " ":
+            if cube[8] == "":
                 Engine.turnLeft()
             if cube[8] == "Yellow":
                 Engine.solYellow()
@@ -114,7 +114,7 @@ def workerTwo(cube):"""
             Engine.turnLeft()
             Engine.turnLeft()
             Engine.solRed()
-            if cube[8] == " ":
+            if cube[8] == "":
                 Engine.turnLeft()
                 Engine.turnLeft()
             if cube[8] == "Yellow":
@@ -133,7 +133,7 @@ def workerTwo(cube):"""
         if cube[5] == "Blue":
             Engine.turnLeft()
             Engine.solBlue()
-            if cube[8] == " ":
+            if cube[8] == "":
                 Engine.turnRight()
             if cube[8] == "Yellow":
                 Engine.turnLeft()
@@ -152,13 +152,13 @@ def workerTwo(cube):"""
     if cube[4] == "Yellow":
         Engine.turnLeft()
         Engine.solYellow()
-        if cube[5] == " ":
+        if cube[5] == "":
             Engine.turnRight()
         if cube[5] == "Yellow":
             Engine.turnLeft()
             Engine.turnLeft()
             Engine.solYellow()
-            if cube[8] == " ":
+            if cube[8] == "":
                 Engine.turnLeft()
             if cube[8] == "Yellow":
                 Engine.solYellow()
@@ -177,7 +177,7 @@ def workerTwo(cube):"""
         if cube[5] == "Red":
             Engine.turnLeft()
             Engine.solRed()
-            if cube[8] == " ":
+            if cube[8] == "":
                 Engine.turnLeft()
                 Engine.turnLeft()
             if cube[8] == "Yellow":
@@ -195,7 +195,7 @@ def workerTwo(cube):"""
 
         if cube[5] == "Blue":
             Engine.solBlue()
-            if cube[8] == " ":
+            if cube[8] == "":
                 Engine.turnRight()
             if cube[8] == "Yellow":
                 Engine.turnLeft()
@@ -236,7 +236,7 @@ def workerTwo(cube):"""
             Engine.turnLeft()
             Engine.turnLeft()
             Engine.solRed()
-            if cube[8] == " ":
+            if cube[8] == "":
                 Engine.turnLeft()
                 Engine.turnLeft()
             if cube[8] == "Yellow":
@@ -274,11 +274,11 @@ def workerTwo(cube):"""
     if cube[4] == "Blue":
         Engine.turnRight()
         Engine.solBlue()
-        if cube[5] == " ":
+        if cube[5] == "":
             Engine.turnLeft()
         if cube[5] == "Yellow":
             Engine.solYellow()
-            if cube[8] == " ":
+            if cube[8] == "":
                 Engine.turnLeft()
             if cube[8] == "Yellow":
                 Engine.solYellow()
@@ -297,7 +297,7 @@ def workerTwo(cube):"""
         if cube[5] == "Red":
             Engine.turnRight()
             Engine.solRed()
-            if cube[8] == " ":
+            if cube[8] == "":
                 Engine.turnLeft()
                 Engine.turnLeft()
             if cube[8] == "Yellow":
@@ -317,7 +317,7 @@ def workerTwo(cube):"""
             Engine.turnRight()
             Engine.turnRight()
             Engine.solBlue()
-            if cube[8] == " ":
+            if cube[8] == "":
                 Engine.turnRight()
             if cube[8] == "Yellow":
                 Engine.turnLeft()
@@ -340,7 +340,7 @@ def workerTwo(cube):"""
             Engine.turnRight()
             Engine.turnRight()
             Engine.solYellow()
-            if cube[7] == " ":
+            if cube[7] == "":
                 Engine.turnRight()
                 Engine.turnRight()
             if cube[7] == "Yellow":
@@ -359,7 +359,7 @@ def workerTwo(cube):"""
         if cube[6] == "Red":
             Engine.turnLeft()
             Engine.solRed()
-            if cube[7] == " ":
+            if cube[7] == "":
                 Engine.turnRight()
             if cube[7] == "Yellow":
                 Engine.turnLeft()
@@ -394,7 +394,7 @@ def workerTwo(cube):"""
             Engine.turnLeft()
             Engine.turnLeft()
             Engine.solYellow()
-            if cube[7] == " ":
+            if cube[7] == "":
                 Engine.turnRight()
                 Engine.turnRight()
             if cube[7] == "Yellow":
@@ -413,7 +413,7 @@ def workerTwo(cube):"""
         if cube[6] == "Red":
             Engine.turnLeft()
             Engine.solRed()
-            if cube[7] == " ":
+            if cube[7] == "":
                 Engine.turnRight()
             if cube[7] == "Yellow":
                 Engine.turnLeft()
@@ -445,7 +445,7 @@ def workerTwo(cube):"""
     if cube[3] == "Red":
         Engine.turnRight()
         Engine.solRed()
-        if cube[6] == " ":
+        if cube[6] == "":
             Engine.turnLeft()
         if cube[6] == "Yellow":
             Engine.turnRight()
@@ -470,7 +470,7 @@ def workerTwo(cube):"""
             Engine.turnRight()
             Engine.turnRight()
             Engine.solRed()
-            if cube[7] == " ":
+            if cube[7] == "":
                 Engine.turnRight()
             if cube[7] == "Yellow":
                 Engine.turnLeft()
@@ -504,12 +504,12 @@ def workerTwo(cube):"""
         Engine.turnRight()
         Engine.turnRight()
         Engine.solBlue()
-        if cube[6] == " ":
+        if cube[6] == "":
             Engine.turnRight()
             Engine.turnRight()
         if cube[6] == "Yellow":
             Engine.solYellow()
-            if cube[7] == " ":
+            if cube[7] == "":
                 Engine.turnRight()
                 Engine.turnRight()
             if cube[7] == "Yellow":
@@ -528,7 +528,7 @@ def workerTwo(cube):"""
         if cube[6] == "Red":
             Engine.turnRight()
             Engine.solRed()
-            if cube[7] == " ":
+            if cube[7] == "":
                 Engine.turnRight()
             if cube[7] == "Yellow":
                 Engine.turnLeft()
