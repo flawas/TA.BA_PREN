@@ -1,5 +1,5 @@
 import logging
-from PREN_flawas import Engine, Display, DataPreparation, DataVerify, ColorRecognition
+from PREN_flawas import Engine, Display, DataPreparation, DataVerify, ColorRecognition, Energy, DataSend
 import os, threading, json, sys, time
 import RPi.GPIO as GPIO
 from time import gmtime, strftime
@@ -560,25 +560,26 @@ def workerTwo(cube):"""
             if cube[7] == "Blue":
                 Engine.solBlue()
 
-    if(ColorRecognition.getPosPlate() == 2):
+    if (ColorRecognition.getPosPlate() == 2):
         Engine.turnRight()
-    if(ColorRecognition.getPosPlate() == 3):
+    if (ColorRecognition.getPosPlate() == 3):
         Engine.turnLeft()
-    if(ColorRecognition.getPosPlate() == 4):
+    if (ColorRecognition.getPosPlate() == 4):
         Engine.turnLeft()
         Engine.turnLeft()
     Engine.solWeight()
     sys.exit(0)
 
 
-
 def startButton():
     Engine.wait_startButton()
     sys.exit(0)
 
+
 def emergencyWatcher():
     Engine.wait_emergencyButton()
     sys.exit(0)
+
 
 if __name__ == '__main__':
     picdir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'pic')
@@ -591,12 +592,13 @@ if __name__ == '__main__':
 
     Display.drawInitialDisplay(epd, background, backgroundmodified, font)
 
-    #Display.clearDisplay(epd)
-    #Display.shutdownDisplay(epd)
-    #time.sleep(10)
+    # Display.clearDisplay(epd)
+    # Display.shutdownDisplay(epd)
+    # time.sleep(10)
 
     # Engine Setup
     Engine.setup()
+    Energy.setup()
 
     # Button Threads
     threadStartButton = threading.Thread(target=startButton)
@@ -613,14 +615,13 @@ if __name__ == '__main__':
     DataVerify.sendStatus("https://oawz3wjih1.execute-api.eu-central-1.amazonaws.com/cubes/team33/start",
                           "QBg3kjqB59xN")
 
-
     # Bilderkennung
     threadPicRecOne = threading.Thread(target=picrecog)
     threadPicRecOne.start()
     threadPicRecOne.join()
     ColorRecognition.getColors(1, "Screenshot1.png")
-    ColorRecognition.getColors(2, "Screenshot2.png") # Wieder entfernen
-    ColorRecognition.getColors(3, "Screenshot3.png") # Wieder entfernen
+    ColorRecognition.getColors(2, "Screenshot2.png")  # Wieder entfernen
+    ColorRecognition.getColors(3, "Screenshot3.png")  # Wieder entfernen
     cube = ColorRecognition.getResult()
 
     # Bob the builder ONE
@@ -642,7 +643,7 @@ if __name__ == '__main__':
     threadEngineThree = threading.Thread(target=workerThree, args=(cube,))
     threadEngineThree.start()"""
 
-    if(ColorRecognition.getPosPlate() == 1):
+    if (ColorRecognition.getPosPlate() == 1):
         DataPreparation.setPos(1, cube[1])
         DataPreparation.setPos(2, cube[2])
         DataPreparation.setPos(3, cube[3])
@@ -652,7 +653,7 @@ if __name__ == '__main__':
         DataPreparation.setPos(7, cube[7])
         DataPreparation.setPos(8, cube[8])
 
-    if(ColorRecognition.getPosPlate() == 2):
+    if (ColorRecognition.getPosPlate() == 2):
         DataPreparation.setPos(6, cube[1])
         DataPreparation.setPos(1, cube[2])
         DataPreparation.setPos(4, cube[3])
@@ -693,7 +694,8 @@ if __name__ == '__main__':
     DataPreparation.setPos(8, "Yellow")
     '''
     data = DataPreparation.getjson()
-    DataVerify.sendData("https://oawz3wjih1.execute-api.eu-central-1.amazonaws.com/cubes/team33/config", "QBg3kjqB59xN", data)
+    DataVerify.sendData("https://oawz3wjih1.execute-api.eu-central-1.amazonaws.com/cubes/team33/config", "QBg3kjqB59xN",
+                        data)
 
     DataVerify.sendStatus("https://oawz3wjih1.execute-api.eu-central-1.amazonaws.com/cubes/team33/end", "QBg3kjqB59xN")
     later = datetime.now()
@@ -704,6 +706,11 @@ if __name__ == '__main__':
     print(f"Time difference in seconds: {int(difference)}")
     text = str(int(difference)) + " Sekunden"
     Display.updateDisplay(epd, 10, 100, text, background, backgroundmodified, font)
+
+    energy = Energy.Energy()
+    text = str(int(energy)) + " Ws"
+    Display.updateDisplay(epd, 10, 170, text, background, backgroundmodified, font)
+    DataSend.send("https://www.i-ba-pren.flaviowaser.ch/upload-data.php", int(difference), int(energy))
 
     time.sleep(20)
     Display.drawPicture(epd, 'pic/bob.bmp')
