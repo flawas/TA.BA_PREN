@@ -1113,6 +1113,7 @@ if __name__ == '__main__':
     if (ColorRecognition.getPosPlate() == 4):
         Engine.turnLeft()
         Engine.turnLeft()
+    time.sleep(0.1)
     Engine.solWeight()
     DataVerify.sendStatus("https://oawz3wjih1.execute-api.eu-central-1.amazonaws.com/cubes/team33/end", "QBg3kjqB59xN")
     later = datetime.now()
